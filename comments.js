@@ -1,25 +1,21 @@
 // create a web server
+// run it with node comments.js
+// then go to localhost:3000/comments.html
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const morgan = require('morgan');
-const comments = require('./comments');
+var http = require('http');
+var fs = require('fs');
 
-const app = express();
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-app.use(cors());
+// create a server object:
+http.createServer(function (req, res) {
+  // read the file
+  fs.readFile('comments.html', function(err, data) {
+    // set content type
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    // write the content of the file to response body
+    res.write(data);
+    // send the response body
+    res.end();
+  });
+}).listen(3000); //the server object listens on port 3000
 
-app.get('/comments', (req, res) => {
-  res.send(
-    comments.getComments()
-  );
-});
-
-app.post('/comments', (req, res) => {
-  comments.addComment(req.body.comment);
-  res.send({ status: 'ok' });
-});
-
-app.listen(process.env.PORT || 8081);
+console.log('Server running at http://localhost:3000/comments.html');
