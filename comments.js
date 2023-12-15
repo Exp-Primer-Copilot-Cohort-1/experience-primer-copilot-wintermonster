@@ -1,4 +1,4 @@
-// Create a web server
+// Create web server
 // run it with node comments.js
 // then go to localhost:3000/comments.html
 
